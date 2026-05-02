@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using System.Linq;
 
 namespace RoundManagerObjectReferenceFix.src.Patches
 {
@@ -16,7 +17,6 @@ namespace RoundManagerObjectReferenceFix.src.Patches
                 if (outsideObj == null)
                 {
                     Plugin.Logger.LogWarning("Null outside object entry in spawn list");
-
                     continue;
                 }
 
@@ -31,7 +31,27 @@ namespace RoundManagerObjectReferenceFix.src.Patches
                     continue;
                 }
 
-                if (spawnAbleObject.prefabToSpawn == null)
+                if (spawnAbleObject.prefabToSpawn != null)
+                {
+                    Plugin.Logger.LogInfo($"Outside object '{spawnAbleObject.name}' | Prefab: {spawnAbleObject.prefabToSpawn.name} OK");
+
+                    continue;
+                }
+
+                var match = StartOfRound.Instance.levels
+                    .SelectMany(l => l.spawnableOutsideObjects)
+                    .FirstOrDefault(o =>
+                        o?.spawnableObject?.prefabToSpawn != null &&
+                        o.spawnableObject.name == spawnAbleObject.name)
+                    ?.spawnableObject;
+
+                if (match != null)
+                {
+                    Plugin.Logger.LogWarning($"Outside object '{spawnAbleObject.name}' has null prefab, resolving from vanilla level");
+
+                    spawnAbleObject.prefabToSpawn = match.prefabToSpawn;
+                }
+                else
                 {
                     Plugin.Logger.LogWarning($"Outside object '{spawnAbleObject.name}' has null prefab, removing from spawn list");
 
