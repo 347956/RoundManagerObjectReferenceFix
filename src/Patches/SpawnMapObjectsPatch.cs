@@ -31,7 +31,7 @@ namespace RoundManagerObjectReferenceFix.src.Patches
                     continue;
                 }
 
-                // If available, return continue;
+                // Prefab is valid, continue to next
                 if (hazardType.prefabToSpawn != null)
                 {
                     Plugin.Logger.LogInfo($"Indoor Hazard: '{hazardType.name}' | Prefab: {hazardType.prefabToSpawn.name} OK");
