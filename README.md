@@ -1,4 +1,4 @@
-﻿# RoundManagerObjectReferenceFix
+# RoundManagerObjectReferenceFix
 
 >ℹ️ Only the host is required to install this mod. Should be fine for multiplayer and could potentially prevent crashes on other custom moons too.
 
