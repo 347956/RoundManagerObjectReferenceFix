@@ -22,26 +22,43 @@ namespace RoundManagerObjectReferenceFix.src.Patches
                 return;
             }
 
+            bool allOk = true;
+
             foreach (var spawnableScrap in __instance.currentLevel.spawnableScrap)
             {
                 if (spawnableScrap == null)
                 {
                     Plugin.Logger.LogWarning("Null scrap entry in spawn list");
 
+                    allOk = false;
+
                     continue;
                 }
 
                 var item = spawnableScrap.spawnableItem;
 
-                if (item?.spawnPrefab == null)
+                if (item == null)
                 {
-                    var replacement = validItems[UnityEngine.Random.Range(0, validItems.Count)];
+                    Plugin.Logger.LogWarning("Scrap entry has null spawnableItem, skipping");
 
-                    Plugin.Logger.LogWarning($"Item '{item?.name ?? "null"}' has null prefab, replacing with '{replacement!.name}'");
+                    allOk = false;
 
-                    spawnableScrap.spawnableItem = replacement;
+                    continue;
                 }
+
+                if (item.spawnPrefab != null) continue;
+
+                allOk = false;
+
+                var replacement = validItems[UnityEngine.Random.Range(0, validItems.Count)];
+
+                Plugin.Logger.LogWarning($"Scrap item '{item.name}' has null prefab, replacing with '{replacement!.name}'");
+
+                spawnableScrap.spawnableItem = replacement;
             }
+
+            if (allOk)
+                Plugin.Logger.LogInfo("All scrap items OK");
         }
     }
 }
