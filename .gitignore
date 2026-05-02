@@ -12,6 +12,7 @@ obj/
 # NuGet
 *.nupkg
 *.snupkg
+Directory.Build.props
 project.lock.json
 project.nuget.props
 project.assets.json
