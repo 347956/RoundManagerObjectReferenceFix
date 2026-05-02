@@ -14,7 +14,9 @@ namespace RoundManagerObjectReferenceFix.src
         private void Awake()
         {
             Logger = base.Logger;
+
             new Harmony(PluginInfo.PLUGIN_GUID).PatchAll();
+
             Logger.LogInfo($"Plugin [{PluginInfo.PLUGIN_GUID}] is loaded!");
         }
     }
