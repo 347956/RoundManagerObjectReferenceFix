@@ -9,6 +9,8 @@ namespace RoundManagerObjectReferenceFix.src.Patches
         [HarmonyPrefix]
         static void Prefix(RoundManager __instance)
         {
+            Plugin.Logger.LogInfo($"Checking: {nameof(RoundManager.SpawnScrapInLevel)}");
+
             // Get valid items from the moon's own spawn list
             var validItems = __instance.currentLevel.spawnableScrap
                 .Where(s => s.spawnableItem?.spawnPrefab != null)

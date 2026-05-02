@@ -10,6 +10,8 @@ namespace RoundManagerObjectReferenceFix.src.Patches
         [HarmonyPrefix]
         static void Prefix(RoundManager __instance)
         {
+            Plugin.Logger.LogInfo($"Checking: SpawnOutsideHazards");
+
             if (__instance.currentLevel.spawnableOutsideObjects == null) return;
 
             foreach (var outsideObj in __instance.currentLevel.spawnableOutsideObjects)

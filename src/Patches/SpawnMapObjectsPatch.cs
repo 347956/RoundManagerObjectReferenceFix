@@ -9,6 +9,8 @@ namespace RoundManagerObjectReferenceFix.src.Patches
         [HarmonyPrefix]
         static void Prefix(RoundManager __instance)
         {
+            Plugin.Logger.LogInfo($"Checking: {nameof(RoundManager.SpawnMapObjects)}");
+
             if (__instance.currentLevel.indoorMapHazards == null) return;
 
             foreach (var hazard in __instance.currentLevel.indoorMapHazards)

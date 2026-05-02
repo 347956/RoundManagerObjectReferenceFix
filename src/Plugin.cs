@@ -15,7 +15,7 @@ namespace RoundManagerObjectReferenceFix.src
 
             new Harmony(PluginInfo.PLUGIN_GUID).PatchAll();
 
-            Logger.LogInfo($"Plugin [{PluginInfo.PLUGIN_GUID}] is loaded!");
+            Logger.LogInfo($"Plugin [{PluginInfo.PLUGIN_GUID} versionm{PluginInfo.PLUGIN_VERSION}] is loaded!");
         }
     }
 }
