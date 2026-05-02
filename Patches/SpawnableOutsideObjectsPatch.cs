@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using System.Linq;
 
-namespace RoundManagerObjectReferenceFix.src.Patches
+namespace RoundManagerObjectReferenceFix.Patches
 {
     // SpawnOutsideHazards is a private method, so we cannot use nameof() here
     [HarmonyPatch(typeof(RoundManager), "SpawnOutsideHazards")]

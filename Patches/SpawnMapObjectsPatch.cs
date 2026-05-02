@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using System.Linq;
 
-namespace RoundManagerObjectReferenceFix.src.Patches
+namespace RoundManagerObjectReferenceFix.Patches
 {
     [HarmonyPatch(typeof(RoundManager), nameof(RoundManager.SpawnMapObjects))]
     public class SpawnMapObjectsPatch
