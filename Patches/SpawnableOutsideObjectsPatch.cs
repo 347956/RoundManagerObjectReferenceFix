@@ -10,6 +10,19 @@ namespace RoundManagerObjectReferenceFix.Patches
         [HarmonyPrefix]
         static void Prefix(RoundManager __instance)
         {
+            // A failing safety net must never break the spawn it protects
+            try
+            {
+                Check(__instance);
+            }
+            catch (System.Exception e)
+            {
+                Plugin.Logger.LogError($"Outside object check failed, continuing with vanilla behaviour: {e}");
+            }
+        }
+
+        static void Check(RoundManager __instance)
+        {
             Plugin.Logger.LogInfo($"Checking: SpawnOutsideHazards");
 
             if (__instance.currentLevel.spawnableOutsideObjects == null) return;
@@ -41,6 +54,7 @@ namespace RoundManagerObjectReferenceFix.Patches
                 }
 
                 var match = StartOfRound.Instance.levels
+                    .Where(l => l?.spawnableOutsideObjects != null)
                     .SelectMany(l => l.spawnableOutsideObjects)
                     .FirstOrDefault(o =>
                         o?.spawnableObject?.prefabToSpawn != null &&

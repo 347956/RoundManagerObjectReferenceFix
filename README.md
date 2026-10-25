@@ -13,11 +13,11 @@ This mod runs during the spawn process of the RoundManager and tries to detect s
 It does the following when a `prefab = null`:
 
 - **Scrap items**:
-	- If an item has a null prefab, it is replaced with a random valid item from the moon's item spawn list
+	- If an item has a null prefab, it is replaced with a valid item from the moon's item spawn list that has a similar value (one of the 3 closest). If the item has no value range to compare, a random valid item is used instead
 - **Outside objects**:
-	- If an outside object has a null prefab, it is removed from the spawn pool to prevent a crash
+	- If an outside object has a null prefab, the prefab is resolved from a vanilla level's object with the same name. If no match exists, it is removed from the spawn pool to prevent a crash
 - **Map objects**:
-	- If an Indoor hazard has a null prefab, it is removed from the spawn pool to prevent a crash
+	- If an Indoor hazard has a null prefab, the prefab is resolved from a vanilla level's hazard with the same name. If no match exists, it is removed from the spawn pool to prevent a crash
 
 Logging is included so you can identify which objects are not resolving correctly and fix them in your moon configuration.
 

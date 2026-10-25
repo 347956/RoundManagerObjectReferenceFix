@@ -9,6 +9,19 @@ namespace RoundManagerObjectReferenceFix.Patches
         [HarmonyPrefix]
         static void Prefix(RoundManager __instance)
         {
+            // A failing safety net must never break the spawn it protects
+            try
+            {
+                Check(__instance);
+            }
+            catch (System.Exception e)
+            {
+                Plugin.Logger.LogError($"Indoor hazard check failed, continuing with vanilla behaviour: {e}");
+            }
+        }
+
+        static void Check(RoundManager __instance)
+        {
             Plugin.Logger.LogInfo($"Checking: {nameof(RoundManager.SpawnMapObjects)}");
 
             if (__instance.currentLevel.indoorMapHazards == null) return;
@@ -43,6 +56,8 @@ namespace RoundManagerObjectReferenceFix.Patches
                 IndoorMapHazardType? match = null;
                 foreach (var level in StartOfRound.Instance.levels)
                 {
+                    if (level?.indoorMapHazards == null) continue;
+
                     match = level.indoorMapHazards
                         .FirstOrDefault(h =>
                             h?.hazardType?.prefabToSpawn != null &&
