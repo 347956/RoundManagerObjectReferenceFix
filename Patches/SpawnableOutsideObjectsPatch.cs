@@ -27,11 +27,16 @@ namespace RoundManagerObjectReferenceFix.Patches
 
             if (__instance.currentLevel.spawnableOutsideObjects == null) return;
 
-            foreach (var outsideObj in __instance.currentLevel.spawnableOutsideObjects)
+            var level = __instance.currentLevel;
+
+            for (int index = 0; index < level.spawnableOutsideObjects.Length; index++)
             {
+                var outsideObj = level.spawnableOutsideObjects[index];
+
                 if (outsideObj == null)
                 {
-                    Plugin.Logger.LogWarning("Null outside object entry in spawn list");
+                    if (Plugin.FirstTime($"outside-null-entry:{level.name}:{index}"))
+                        Plugin.Logger.LogWarning($"Null outside object entry at index {index} in spawn list of '{level.name}'");
                     continue;
                 }
 
@@ -39,7 +44,8 @@ namespace RoundManagerObjectReferenceFix.Patches
 
                 if (spawnAbleObject == null)
                 {
-                    Plugin.Logger.LogWarning("Outside object has null spawnableObject, removing from spawn list");
+                    if (Plugin.FirstTime($"outside-null-object:{level.name}:{index}"))
+                        Plugin.Logger.LogWarning($"Outside object at index {index} in '{level.name}' has null spawnableObject, removing from spawn list");
 
                     outsideObj.randomAmount = new UnityEngine.AnimationCurve();
 
@@ -48,7 +54,8 @@ namespace RoundManagerObjectReferenceFix.Patches
 
                 if (spawnAbleObject.prefabToSpawn != null)
                 {
-                    Plugin.Logger.LogInfo($"Outside object '{spawnAbleObject.name}' | Prefab: {spawnAbleObject.prefabToSpawn.name} OK");
+                    if (Plugin.FirstTime($"outside-ok:{spawnAbleObject.name}"))
+                        Plugin.Logger.LogInfo($"Outside object '{spawnAbleObject.name}' | Prefab: {spawnAbleObject.prefabToSpawn.name} OK");
 
                     continue;
                 }
@@ -69,7 +76,8 @@ namespace RoundManagerObjectReferenceFix.Patches
                 }
                 else
                 {
-                    Plugin.Logger.LogWarning($"Outside object '{spawnAbleObject.name}' has null prefab, removing from spawn list");
+                    if (Plugin.FirstTime($"outside-removed:{spawnAbleObject.name}"))
+                        Plugin.Logger.LogWarning($"Outside object '{spawnAbleObject.name}' has null prefab, removing from spawn list");
 
                     outsideObj.randomAmount = new UnityEngine.AnimationCurve();
                 }

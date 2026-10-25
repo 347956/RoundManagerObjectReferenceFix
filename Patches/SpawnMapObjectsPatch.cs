@@ -47,7 +47,8 @@ namespace RoundManagerObjectReferenceFix.Patches
                 // Prefab is valid, continue to next
                 if (hazardType.prefabToSpawn != null)
                 {
-                    Plugin.Logger.LogInfo($"Indoor Hazard: '{hazardType.name}' | Prefab: {hazardType.prefabToSpawn.name} OK");
+                    if (Plugin.FirstTime($"indoor-ok:{hazardType.name}"))
+                        Plugin.Logger.LogInfo($"Indoor Hazard: '{hazardType.name}' | Prefab: {hazardType.prefabToSpawn.name} OK");
 
                     continue;
                 }
@@ -75,7 +76,8 @@ namespace RoundManagerObjectReferenceFix.Patches
                 }
                 else
                 {
-                    Plugin.Logger.LogWarning($"Indoor hazard '{hazardType.name}' has null prefab, removing from spawn list");
+                    if (Plugin.FirstTime($"indoor-removed:{hazardType.name}"))
+                        Plugin.Logger.LogWarning($"Indoor hazard '{hazardType.name}' has null prefab, removing from spawn list");
 
                     hazard.numberToSpawn = new UnityEngine.AnimationCurve();
                 }

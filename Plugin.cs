@@ -1,6 +1,7 @@
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using System.Collections.Generic;
 
 namespace RoundManagerObjectReferenceFix
 {
@@ -8,6 +9,11 @@ namespace RoundManagerObjectReferenceFix
     public class Plugin : BaseUnityPlugin
     {
         internal static new ManualLogSource Logger = null!;
+
+        private static readonly HashSet<string> Logged = new HashSet<string>();
+
+        // True only the first time a key is seen, keeps per-level-load logs from repeating
+        internal static bool FirstTime(string key) => Logged.Add(key);
 
         private void Awake()
         {
